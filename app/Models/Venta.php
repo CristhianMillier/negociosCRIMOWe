@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Venta extends Model
+{
+    use HasFactory;
+
+    public function cliente(){
+        return $this->belongsTo(Cliente::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function caja(){
+        return $this->hasOne(Caja::class);
+    }
+
+    public function productos(){
+        return $this->belongsToMany(Producto::class)->withTimestamps()
+        ->withPivot('cantidad', 'precio_venta', 'descuento');
+    }
+
+    protected $fillable = ['fecha_hora', 'total', 'impuesto', 'cliente_id', 'user_id'];
+}
